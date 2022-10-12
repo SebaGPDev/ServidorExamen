@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const dbConnection = require("./database");
 const User = require("./models/User");
-const morgan = require('morgan');
+const morgan = require("morgan");
 
 // Initializations
 const app = express();
@@ -12,7 +12,7 @@ dbConnection();
 app.set("port", process.env.PORT || 3000);
 
 // Middlewares
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 // console.log(newUser);
 
 // Routes
-app.use(require('./routes/task.routes')); // Importando rutas
-
+app.use(require("./routes/task.routes")); // Importando rutas
+app.use(require("./routes/auth.routes"));
 // Exports
 module.exports = app;
