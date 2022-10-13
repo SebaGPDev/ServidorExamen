@@ -20,14 +20,15 @@ const UserSchema = new Schema(
       default: true,
     },
     role: {
-      type: Array,
-      default: 'User',
+      type: String,
+      default: "User",
     },
   },
   {
     versionKey: false,
     timestamps: true,
   }
+  
 );
 
 UserSchema.methods.toJSON = function () {

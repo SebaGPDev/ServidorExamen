@@ -1,5 +1,6 @@
 const { encrypt, compare } = require("../helpers/handleBcrypt");
 const UserModel = require("../models/User");
+const { tokenSing } = require("../helpers/generatorJWT");
 
 const authCtrl = {};
 
@@ -29,8 +30,9 @@ authCtrl.login = async (req, res) => {
       res.send({ error: "User not found" });
     }
     const matchPassword = await compare(password, user.password);
+    const tokenSession = await tokenSing(user);
     if (matchPassword) {
-      res.send({ data: user });
+      res.send({ data: user, tokenSession });
     }
     if (!matchPassword) {
       res.status(404);

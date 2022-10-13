@@ -1,8 +1,6 @@
-const taskCtrl = {};
+const TaskModel = require("../models/Task");
+const UserModel = require("../models/User");
 
-taskCtrl.createNewTask = (req, res) => {
-  console.log(req.body);
-  res.send("new note");
-};
+const taskCtrl = {};
 
 module.exports = taskCtrl;

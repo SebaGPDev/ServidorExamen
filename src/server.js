@@ -19,9 +19,7 @@ app.use(express.json());
 // Global variables
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("Welcome");
-});
+
 
 // Static files
 // const newUser = new User({
@@ -39,7 +37,8 @@ app.get("/", (req, res) => {
 // console.log(newUser);
 
 // Routes
-app.use(require("./routes/task.routes")); // Importando rutas
 app.use(require("./routes/auth.routes"));
+// app.use(require("./routes/task.routes")); // Importando rutas
+// app.use(require("./routes/user.routes"));
 // Exports
 module.exports = app;
