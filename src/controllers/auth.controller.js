@@ -1,45 +1,32 @@
-const { encrypt, compare } = require("../helpers/handleBcrypt");
-const UserModel = require("../models/User");
-const { tokenSing } = require("../helpers/generatorJWT");
+const UserModel = require("../models/user.model");
+const tokenSing = require("../helpers/generatorJWT");
+const bcrypt = require("bcrypt");
 
 const authCtrl = {};
 
-authCtrl.register = async (req, res) => {
-  try {
-    const { username, password, email } = req.body;
+authCtrl.auth = async (req, res) => {
+  const { email, password } = req.body;
 
-    const passwordHash = await encrypt(password);
-    const registerUser = await UserModel.create({
-      username,
-      email,
-      password: passwordHash,
-    });
-    res.send({ data: registerUser });
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-authCtrl.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
     const user = await UserModel.findOne({ email });
-
     if (!user) {
-      res.status(404);
-      res.send({ error: "User not found" });
+      return res.status(400).json({ Error: "Error to authenticate" });
     }
-    const matchPassword = await compare(password, user.password);
-    const tokenSession = await tokenSing(user);
-    if (matchPassword) {
-      res.send({ data: user, tokenSession });
+
+    if (!user.isActive) {
+      return res.status(400).json({ Error: "Error to authenticate" });
     }
-    if (!matchPassword) {
-      res.status(404);
-      res.send({ error: "Password mismatch" });
+
+    const validarPassword = bcrypt.compareSync(password, user.password);
+
+    if (!validarPassword) {
+      return res.status(400).send({ Error: "Error to authenticate" });
     }
-  } catch (err) {
-    console.error(err);
+
+    const token = await tokenSing({ uid: user._id });
+    return res.json({ token });
+  } catch (error) {
+    return res.send({ Error: "Error to login" });
   }
 };
 

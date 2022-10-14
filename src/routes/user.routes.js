@@ -1,18 +1,16 @@
 const router = require("express").Router();
-const checkAuth = require("../middleware/auth");
-const checkRoleAuth = require("../middleware/authRole");
+
 const {
-  get
+  checkUsers,
+  createUser,
+  updateUser,
+  deleteUser,
 } = require("../controllers/user.controller");
+const validateJWT = require("../middleware/validateJWT");
 
-router.get("/", checkAuth, checkRoleAuth(["Admin","User","SuperUser"]), get);
-
-// router.get("/:id", checkOrigin, getItem);
-
-// router.post("/", checkOrigin, validateCreate, createItem);
-
-// router.patch("/:id", updateItem);
-
-// router.delete("/:id", deleteItem);
+router.get("/user", [validateJWT], checkUsers);
+router.post("/register", createUser);
+router.put("/user", [validateJWT], updateUser);
+router.delete("/user", [validateJWT], deleteUser);
 
 module.exports = router;

@@ -1,11 +1,9 @@
-const esAdmin = (req, res, next) => {
-  if (req.user.role !== "admin_user") {
+const isAdmin = (req, res, next) => {
+  if (req.user.Role !== "Si") {
     return res.status(401).json({
-      msg: "No autorizado - No eres administrador",
+      message: "No autorizado - No eres administrador",
     });
   }
-
   next();
 };
-
-module.exports = esAdmin;
+module.exports = isAdmin;
