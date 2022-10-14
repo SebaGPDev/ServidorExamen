@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const dbConnection = require("./database");
-const User = require("./models/User");
 const morgan = require("morgan");
 
 // Initializations
@@ -9,7 +8,6 @@ const app = express();
 dbConnection();
 
 // Settings
-app.set("port", process.env.PORT || 3000);
 
 // Middlewares
 app.use(morgan("dev"));
@@ -18,27 +16,14 @@ app.use(express.json());
 
 // Global variables
 
-// Routes
-
-
 // Static files
-// const newUser = new User({
-//   username: "Sebastian",
-//   password: "123",
-//   email: "admin@example.com",
-//   role: 'Admin',
-// });
 
-// newUser.encryptPassword();
-// newUser.matchPassword();
-
-// newUser.save();
-
-// console.log(newUser);
 
 // Routes
+
+// Importando rutas
 app.use(require("./routes/auth.routes"));
-// app.use(require("./routes/task.routes")); // Importando rutas
-// app.use(require("./routes/user.routes"));
+app.use(require("./routes/task.routes"));
+app.use(require("./routes/user.routes"));
 // Exports
 module.exports = app;
