@@ -1,5 +1,5 @@
 const UserModel = require("../models/user.model");
-const { encrypt } = require("../helpers/handleBcrypt");
+const bcrypt = require("bcrypt");
 const userCtrl = {};
 
 userCtrl.checkUsers = async (req, res) => {
@@ -10,22 +10,22 @@ userCtrl.checkUsers = async (req, res) => {
   });
 };
 
-userCtrl.createUser = async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
+userCtrl.postUser = async (req, res) => {
+  const { username, email, password: passRecibida } = req.body;
+  const passEncriptada = bcrypt.hashSync(passRecibida, 10);
 
-    const passwordHash = await encrypt(password);
-    const registerUser = await UserModel.create({
-      username,
-      email,
-      password: passwordHash,
-    });
-    return res.json({
-      status: "User created successfully",
-    });
-  } catch (err) {
-    console.error(err);
-  }
+  const newUser = new UserModel({
+    username,
+    email,
+    password: passEncriptada,
+  });
+
+  const user = await newUser.save();
+
+  return res.json({
+    msg: "usuario cargado correctamente",
+    user,
+  });
 };
 
 userCtrl.updateUser = async (req, res) => {
