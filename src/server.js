@@ -22,8 +22,8 @@ app.use(express.json());
 // Routes
 
 // Importando rutas
-// app.use(require("./routes/auth.routes"));
-// app.use(require("./routes/task.routes"));
-// app.use(require("./routes/user.routes"));
+app.use(require("./routes/login.routes"));
+app.use(require("./routes/tasks.routes"));
+app.use(require("./routes/users.routes"));
 // Exports
 module.exports = app;
