@@ -1,5 +1,5 @@
 const UserModel = require("../models/Users");
-const tokenSing = require("../helpers/generateJWT");
+const tokenSing = require("../helpers/generatorJWT");
 const bcrypt = require("bcrypt");
 
 const authCtrol = {};
