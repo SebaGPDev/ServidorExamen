@@ -18,7 +18,6 @@ app.use(express.json());
 
 // Static files
 
-
 // Routes
 
 // Importando rutas
